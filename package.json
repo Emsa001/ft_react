@@ -1,0 +1,36 @@
+{
+    "name": "react",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "main": "src/app.js",
+    "scripts": {
+        "start": "webpack serve",
+        "build": "webpack --mode production"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/lodash": "^4.17.16",
+        "@types/node": "^22.13.2",
+        "@types/webpack-env": "^1.18.8",
+        "copy-webpack-plugin": "^12.0.2",
+        "css-loader": "^7.1.2",
+        "postcss": "^8.5.2",
+        "postcss-loader": "^8.1.1",
+        "postcss-preset-env": "^10.1.4",
+        "style-loader": "^4.0.0",
+        "tailwindcss": "^4.0.6",
+        "typescript": "^5.7.3",
+        "webpack": "^5.97.1",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.0"
+    },
+    "dependencies": {
+        "@tailwindcss/postcss": "^4.0.6",
+        "dotenv": "^16.5.0",
+        "html-webpack-plugin": "^5.6.3",
+        "lodash": "^4.17.21",
+        "ts-loader": "^9.5.2"
+    }
+}
