@@ -1,23 +1,52 @@
 # ft_react
 
-`ft_react` is my own implementation of the React library. This project is a work in progress and aims to replicate some of React’s core functionalities, including hooks, context, and routing.
+**ft_react** is a lightweight, learning-focused implementation of the React library. It replicates core React features such as hooks, context, and routing — and adds a few custom ones too.
+
+> ⚠️ **Note**: This project is for educational purposes and should not be used in production environments.
+
+---
+
+## 🚀 Table of Contents
+
+- [Motivation](#motivation)
+- [Features](#features)
+  - [Custom Hook: `useStatic`](#what-is-usestatic)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Tailwind CSS Integration](#tailwindcss)
+- [Example](#example)
+  - [Basic Example](#basic-example)
+  - [Routing Example](#example-routing)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
 
 ## Motivation
 
-The idea for this project came from my final project at 42 coding school (`ft_transcendence`), where using React was not allowed. Therefore, I decided to write my own implementation of React.  
-> ⚠️ This library is intended for learning purposes only and is **not** recommended for production use.
+The idea for this project came from my final project at 42 coding school (`ft_transcendence`), where using React was not allowed.  
+So I decided to write my own React-like implementation from scratch.
+
+---
+
+## 🌐 Showcase
+
+Check out the live demo of `ft_react`:  
+🔗 [https://ft-react.vercel.app/](https://ft-react.vercel.app/)
+
+This page demonstrates how the library works with routing, hooks, and custom features in action.
+
+---
 
 ## Features
 
-- **Routing**: Basic routing capabilities for navigation between different pages without reloading.
-- **Hooks**: Implemented `useState`, `useStatic`, `useEffect`, `useRef`, `useContext`, `useNavigate` and `useSyncExternalStore`.
-- **Context and Providers**: A basic context API for managing global state.
+- **Routing**: Navigate between views without reloading the page.
+- **Hooks**: Includes `useState`, `useStatic`, `useEffect`, `useRef`, `useContext`, `useNavigate`, and `useSyncExternalStore`.
+- **Context API**: Basic support for global state using providers.
 
 ### What is `useStatic`?
 
-`useStatic` is a custom hook I always wanted to have in React, so I implemented it here. It works like `useState`, except it retains its value across the entire application and can be shared between components.
-
-**Example:**
+`useStatic` is a custom hook I always wanted in React. It behaves like `useState`, except its state persists across the entire application and is shared between components automatically — no need for context providers.
 
 ```tsx
 import React, { useStatic } from "react";
@@ -45,8 +74,9 @@ export function StaticStateSimple() {
 }
 ```
 
-Even after the component unmounts, the static value `"simple"` will persist. It can also be accessed in different components, and the value will be shared with need of using Context providers. 
-`useStatic` optimally tracks all subscribed to it components and updates them as needed.
+The `"simple"` key ensures the value persists even after component unmount, and syncs between components.
+
+---
 
 ## Installation
 
@@ -58,6 +88,8 @@ cd ft_react
 npm install
 ```
 
+---
+
 ## Usage
 
 To start the development server:
@@ -66,9 +98,49 @@ To start the development server:
 npm run dev
 ```
 
+---
+
 ## Tailwindcss
 
-Tailwindcss v4 is included in `ft_react`. Simply go to `src/app/global.css` and uncomment:
+You can integrate Tailwind CSS with PostCSS using either v3 or v4:
+
+- [Tailwind v3 Installation Guide](https://v3.tailwindcss.com/docs/installation/using-postcss)
+- [Tailwind v4 Installation Guide](https://tailwindcss.com/docs/installation/using-postcss)
+
+### `postcss.config.js`
+
+```ts
+export default {
+    plugins: {
+        tailwindcss: {}, // or "@tailwindcss/postcss": {}, for Tailwind v4
+        autoprefixer: {},
+    },
+};
+```
+
+### `tailwind.config.js`
+
+```ts
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: ["./src/**/*.{ts,tsx,html}"],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+};
+```
+
+### `global.css` (v3)
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+### `global.css` (v4)
+
 ```css
 @layer theme, base, components, utilities;
 
@@ -78,9 +150,11 @@ Tailwindcss v4 is included in `ft_react`. Simply go to `src/app/global.css` and 
 @import "tailwindcss/utilities.css" layer(utilities);
 ```
 
+---
+
 ## Example
 
-Here’s a basic example of how to use `ft_react`:
+### Basic Example
 
 ```tsx
 import React, { useState, useEffect, setTitle } from 'react';
@@ -115,10 +189,15 @@ export default App;
 </BrowserRouter>
 ```
 
+---
+
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+Contributions are welcome!  
+Feel free to open an issue or submit a pull request for improvements or bug fixes.
+
+---
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
