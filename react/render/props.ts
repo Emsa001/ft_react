@@ -1,5 +1,5 @@
-export function setProps({ ref, key, value }: { ref: Element; key: string; value: any }): void {
-    if (key === "children") return;
+export function setProps({ ref, key, value }: { ref: Element | null; key: string; value: any }): void {
+    if (!ref || key === "children") return;
 
     if (key === "style" && typeof value === "object") {
         Object.assign((ref as HTMLElement).style, value);
