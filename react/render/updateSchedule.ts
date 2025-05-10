@@ -21,8 +21,6 @@ export async function updateSchedule(component: ReactComponentInstance, states: 
             processQueue(hook);
         });
 
-        component.isDirty = false;
-
         React.currentComponent = component;
         component.hookIndex = 0;
 
@@ -52,7 +50,7 @@ export async function updateSchedule(component: ReactComponentInstance, states: 
                 name: component.name,
             });
             component.vNode = newNode;
-            component.isDirty = false;
+            component.onUpdate();
         }
         if (IS_DEVELOPMENT) console.log(React.components);
     });

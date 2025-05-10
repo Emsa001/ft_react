@@ -206,7 +206,6 @@ const updateFunctionComponent = (
     const newComponent = newNode.type(newNode.props, ...newNode.children);
     newComponent.componentName = newNode.componentName;
 
-    oldComponent.isDirty = false;
     const componentName = typeof newComponent.type === "function" ? newComponent.type.name : "";
 
     if (IS_DEVELOPMENT) console.log("[ Function component ]", newComponent, oldComponent);

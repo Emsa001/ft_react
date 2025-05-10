@@ -54,7 +54,9 @@ export function createComponentInstanceMethod(element: ReactElement): ReactCompo
             this.hookIndex = 0;
         },
         onUpdate() {
-            if(IS_DEVELOPMENT) console.log("Updating component:", this.name);
+            if(IS_DEVELOPMENT) console.log("Component updated:", this.name);
+            
+            this.isDirty = false;
         },
     };
 }
