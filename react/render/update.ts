@@ -1,7 +1,7 @@
-import { UpdateProps } from "../types";
-import { isEqual } from "lodash";
-import { mount, unMountNode } from "./mount";
 import React, { IS_DEVELOPMENT } from "react";
+import { isEqual } from "lodash";
+import { UpdateProps } from "../types";
+import { mount, unMountNode } from "./mount";
 import { removeProp, setProps } from "./props";
 
 

@@ -1,5 +1,5 @@
+import React, { IS_DEVELOPMENT } from "react";
 import { ReactComponentInstance } from "react/types";
-import React, { IS_DEVELOPMENT } from "..";
 import { unMountNode } from "react/render/mount";
 
 export function createComponentInstanceMethod(element: ReactElement): ReactComponentInstance {

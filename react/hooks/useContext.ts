@@ -1,5 +1,4 @@
-import { Context } from "vm";
-import React from "..";
+import React, { Context } from "..";
 
 export function useContextHook(context: Context) {
     context.subscriptions.add(React.currentComponent!);

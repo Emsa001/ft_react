@@ -1,4 +1,4 @@
-import React, { BrowserRouter, Router } from "react";
+import React from "react";
 import "./global.css";
 
 export default function Root() {
