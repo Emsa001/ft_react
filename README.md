@@ -2,8 +2,6 @@
 
 **ft_react** is a lightweight, learning-focused implementation of the React library. It replicates core React features such as hooks, context, and routing — and adds a few custom ones too.
 
-> ⚠️ **Note**: This project is for educational purposes and should not be used in production environments.
-
 ---
 
 ## 🚀 Table of Contents
