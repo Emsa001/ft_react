@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useStatic } from "react";
 
 export function useLocalStorageHook<T>(key: string, initialValue: T): [T, (value: T) => void] {
-    const [storedValue, setStoredValue] = React.useState(() => {
+    const [storedValue, setStoredValue] = useStatic<T>(key, getStoredValue());
+
+    function getStoredValue(): T {
         try {
             const item = window.localStorage.getItem(key);
             return item ? JSON.parse(item) : initialValue;
@@ -9,7 +11,7 @@ export function useLocalStorageHook<T>(key: string, initialValue: T): [T, (value
             console.error(`Error reading localStorage key "${key}":`, error);
             return initialValue;
         }
-    });
+    }
 
     const setValue = (value: T) => {
         try {
@@ -21,5 +23,5 @@ export function useLocalStorageHook<T>(key: string, initialValue: T): [T, (value
         }
     };
 
-    return [storedValue as T, setValue];
+    return [storedValue, setValue];
 }

@@ -184,7 +184,7 @@ const updateFunctionComponent = async (
     // Compare props to check if function needs an update;
     const oldComponent = React.components.get(oldNode.componentName!);
     if (!oldComponent) {
-        console.warn("Old component not found", oldNode, newNode);
+        if (IS_DEVELOPMENT) console.warn("Old component not found", oldNode, newNode);
         return true;
     }
 
