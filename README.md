@@ -82,7 +82,7 @@ The `"simple"` key ensures the value persists even after component unmount, and 
 `useLocalStorage` is a custom hook that allows you to store and retrieve values from the browser's local storage. It behaves like `useState`, but the state is persisted in local storage.
 
 ```tsx
-import React, { useLocalStorage } from "ft_react";
+import React, { useLocalStorage } from "react";
 
 function App() {
     const [name, setName] = useLocalStorage("name", "Anonymous");
