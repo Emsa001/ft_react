@@ -17,6 +17,7 @@ import { useNavigateHook } from "./hooks/useNavigate";
 
 import "./render/hot";
 import { useSyncExternalStoreMethod } from "./hooks/useSyncExternalStore";
+import { useLocalStorageHook } from "./hooks/useLocalStorage";
 
 class FtReact {
     isFirstRender: boolean = true;
@@ -70,6 +71,7 @@ class FtReact {
         subscribe: (onStoreChange: () => void) => () => void,
         getSnapshot: () => T
     ) => useSyncExternalStoreMethod(subscribe, getSnapshot);
+    useLocalStorage = (key: string, initialValue?: any) => useLocalStorageHook(key, initialValue);
 
     /*
      * Custom Methods
@@ -105,6 +107,7 @@ export const useRef = React.useRef;
 export const useContext = React.useContext;
 export const useNavigate = React.useNavigate;
 export const useSyncExternalStore = React.useSyncExternalStore;
+export const useLocalStorage = React.useLocalStorage;
 
 /*
  * Custom Methods

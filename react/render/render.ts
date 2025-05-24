@@ -2,6 +2,9 @@ import React, { IS_DEVELOPMENT, ReactComponentInstance } from "..";
 import { mount } from "./mount";
 
 export async function renderMethod(element: ReactElement, container: HTMLElement) {
+    if(React.isFirstRender)
+        React.isFirstRender = false;
+
     const rootComponent = renderComponentMethod(element);
     React.components.set(rootComponent.name, rootComponent);
     React.currentComponent = rootComponent;
