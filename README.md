@@ -79,7 +79,7 @@ The `"simple"` key ensures the value persists even after component unmount, and 
 
 ### What is `useLocalStorage`?
 
-`useLocalStorage` is a custom hook that allows you to store and retrieve values from the browser's local storage. It behaves like `useState`, but the state is persisted in local storage.
+`useLocalStorage` is a custom hook that allows you to store and retrieve values from the browser's local storage. It behaves like `useStatic`, but the state is persisted in local storage.
 
 ```tsx
 import React, { useLocalStorage } from "react";
@@ -95,8 +95,6 @@ function App() {
     );
 }
 ```
-
-The value just like in `useStatic` is persisted after the component unmounts, and it will be available in local storage, meaning it will persist even after the page is refreshed.
 
 ## Installation
 
