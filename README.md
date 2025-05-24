@@ -9,6 +9,7 @@
 - [Motivation](#motivation)
 - [Features](#features)
   - [Custom Hook: `useStatic`](#what-is-usestatic)
+  - [Custom Hook: `useLocalStorage`](#what-is-uselocalstorage)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Tailwind CSS Integration](#tailwindcss)
@@ -75,6 +76,27 @@ export function StaticStateSimple() {
 The `"simple"` key ensures the value persists even after component unmount, and syncs between components.
 
 ---
+
+### What is `useLocalStorage`?
+
+`useLocalStorage` is a custom hook that allows you to store and retrieve values from the browser's local storage. It behaves like `useState`, but the state is persisted in local storage.
+
+```tsx
+import React, { useLocalStorage } from "ft_react";
+
+function App() {
+    const [name, setName] = useLocalStorage("name", "Anonymous");
+
+    return (
+        <div>
+            <h1>Hello, {name}!</h1>
+            <input value={name} onChange={(e) => setName(e.target.value)} />
+        </div>
+    );
+}
+```
+
+The value just like in `useStatic` is persisted after the component unmounts, and it will be available in local storage, meaning it will persist even after the page is refreshed.
 
 ## Installation
 
