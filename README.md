@@ -96,7 +96,7 @@ function App() {
 }
 ```
 
-`useLocalStorage` is built on top of the `useStatic`, so the value persists between after unmounts and changes will rerender all subscribed components.
+`useLocalStorage` is built on top of the `useStatic`, so the value persists after unmounts and changes will rerender all subscribed components.
 
 ## Installation
 
