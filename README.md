@@ -79,7 +79,7 @@ The `"simple"` key ensures the value persists even after component unmount, and 
 
 ### What is `useLocalStorage`?
 
-`useLocalStorage` is a custom hook that allows you to store and retrieve values from the browser's local storage. It behaves like `useStatic`, but the state is persisted in local storage.
+`useLocalStorage` is a custom hook that allows you to store and retrieve values from the browser's local storage.
 
 ```tsx
 import React, { useLocalStorage } from "react";
@@ -96,10 +96,11 @@ function App() {
 }
 ```
 
+`useLocalStorage` is built on top of the `useStatic`, so the value persists between after unmounts and changes will rerender all subscribed components.
+
 ## Installation
 
 To get started with `ft_react`, clone the repository and install the dependencies:
-
 ```bash
 git clone https://github.com/emsa001/ft_react.git
 cd ft_react
