@@ -27,7 +27,7 @@ const isDifferent = (oldNode: ReactElement, newNode: ReactElement): boolean => {
 
     for (const key of oldPropsKeys) {
         if (!isEqual(oldProps[key], newProps[key])) {
-            console.log("Props are different", oldProps[key], newProps[key]);
+            if(IS_DEVELOPMENT) console.log("Props are different", oldProps[key], newProps[key]);
             return true;
         }
     }

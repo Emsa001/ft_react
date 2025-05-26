@@ -1,5 +1,4 @@
 // types.ts
-
 export type HookType = 'state' | 'effect' | 'memo' | 'ref';
 
 export interface Hook {
@@ -68,3 +67,13 @@ export interface UpdateProps {
     index: number;
     name: string;
 }
+
+
+export type LinkTarget = "_blank" | "_self" | "_parent" | "_top";
+export type LinkMethodProps = {
+    to: string;
+    target?: LinkTarget;
+    state?: any;
+    className?: string;
+    children?: ReactElement | ReactElement[];
+};

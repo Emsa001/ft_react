@@ -1,4 +1,4 @@
-import { Hook, ReactComponentInstance, RouterProps } from "./types";
+import { Hook, LinkMethodProps, ReactComponentInstance, RouterProps } from "./types";
 
 import { isValidElementMethod } from "./methods/isValidElement";
 import { cloneElementMethod } from "./methods/cloneElement";
@@ -55,7 +55,7 @@ class FtReact {
 
     BrowserRouter = (props: { children?: ReactElement[] }) => BrowserRouterMethod(props);
     Router = (props: RouterProps) => RouterMethod(props);
-    Link = (props: { to: string; state?: any; children?: ReactElement[] }) => LinkMethod(props);
+    Link = (props: LinkMethodProps) => LinkMethod(props);
 
     /*
      * Hooks
