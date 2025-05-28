@@ -1,17 +1,14 @@
 import { MountMode } from "react/types";
 
 export function addToDom(dom: Element | Text, parent: Element | null, mode: MountMode){
-    if(!parent){
-        throw new Error("Parent is null");
-    }
+    if(!parent) throw new Error("Parent is null");
 
-    if (mode === "replace") {
+    if (mode === "replace") 
         parent.replaceWith(dom);
-    } else if (mode === "before") {
+    else if (mode === "before") 
         parent.insertBefore(dom, parent.firstChild);
-    } else if (mode === "after") {
+    else if (mode === "after") 
         parent.after(dom);
-    } else {
+    else 
         parent.appendChild(dom);
-    }
 }

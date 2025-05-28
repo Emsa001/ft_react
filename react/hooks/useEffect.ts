@@ -1,5 +1,4 @@
 import React from "..";
-import { useRefHook } from "./useRef";
 
 const checkDependenciesChanged = (prevDeps: TDependencyList, deps: TDependencyList): boolean => {
     if (prevDeps.length !== deps.length) {
@@ -26,9 +25,9 @@ export function useEffectHook(callback: TEffectCallback, deps?: TDependencyList)
         throw new Error("useEffect must be called inside a component render function");
     }
 
-    const prevDeps = useRefHook<TDependencyList | undefined>(undefined);
-    const cleanupRef = useRefHook<(() => void) | undefined>(undefined);
-    const isFirstRender = useRefHook(true);
+    const prevDeps = React.useRef<TDependencyList | undefined>(undefined);
+    const cleanupRef = React.useRef<(() => void) | undefined>(undefined);
+    const isFirstRender = React.useRef(true);
 
     const runEffect = () => setTimeout(() => {
         if (typeof cleanupRef.current === "function") {

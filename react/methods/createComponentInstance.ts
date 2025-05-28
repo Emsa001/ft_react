@@ -8,11 +8,8 @@ export function createComponentInstanceMethod(element: ReactElement): ReactCompo
     }
 
     let name = element.type.name;
-
-    while(React.components.has(name)) {
+    while(React.components.has(name)) 
         name = element.type.name + Math.random().toString(36).substring(2, 15);
-    }
-
     element.componentName = name;
 
     return {
@@ -37,13 +34,12 @@ export function createComponentInstanceMethod(element: ReactElement): ReactCompo
 
             const allChildren = Array.isArray(this.vNode?.children) ? this.vNode?.children : [];
             if(IS_DEVELOPMENT) console.log("Unmounting children:", allChildren);
-            for (const child of allChildren) {
-                unMountNode(child);
-            }
-            
-            this.vNode?.ref?.remove();
+            for (const child of allChildren) unMountNode(child);
+
             React.components.delete(this.name);
             React.staticComponents.delete(this.name);
+            
+            this.vNode?.ref?.remove();
             this.queueFunctions.forEach((fn) => fn());
             this.queueFunctions.clear();
             
@@ -52,6 +48,7 @@ export function createComponentInstanceMethod(element: ReactElement): ReactCompo
             this.jsx = null;
             this.hooks = [];
             this.hookIndex = 0;
+            
         },
         onUpdate() {
             if(IS_DEVELOPMENT) console.log("Component updated:", this.name);

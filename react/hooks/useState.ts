@@ -1,9 +1,6 @@
 import React, { IS_DEVELOPMENT } from "react";
 import { updateSchedule } from "react/render/updateSchedule";
 
-
-
-// useState implementation
 export function useStateHook<T>(initialState: T): [T, (value: T | ((prevState: T) => T)) => void] {
     const component = React.currentComponent;
 
@@ -17,7 +14,6 @@ export function useStateHook<T>(initialState: T): [T, (value: T | ((prevState: T
         hook = {
             memoizedState: initialState,
             queue: [],
-            type: 'state'
         };
         
         component.hooks.push(hook);

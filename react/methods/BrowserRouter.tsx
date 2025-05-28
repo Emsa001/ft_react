@@ -78,7 +78,13 @@ export function BrowserRouterMethod(props: { children?: ReactElement[] }) {
     return defaultRoute || null;
 }
 
-export const LinkMethod = ({ to, target, state, className, children }: LinkMethodProps) => {
+export const LinkMethod = ({
+    to,
+    target = "_self",
+    state,
+    className,
+    children,
+}: LinkMethodProps) => {
     const navigate = useNavigate();
 
     const handleClick = (e: MouseEvent) => {
@@ -89,12 +95,12 @@ export const LinkMethod = ({ to, target, state, className, children }: LinkMetho
             to.startsWith("mailto:") ||
             to.startsWith("tel:") ||
             to.startsWith("javascript:") ||
-            target && target !== "_self"
+            (target && target !== "_self")
         ) {
             return;
         }
 
-        if(to === window.location.pathname) {
+        if (to === window.location.pathname) {
             e.preventDefault();
             return;
         }

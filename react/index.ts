@@ -14,14 +14,13 @@ import { useStaticHook } from "./hooks/useStatic";
 import { useRefHook } from "./hooks/useRef";
 import { useContextHook } from "./hooks/useContext";
 import { useNavigateHook } from "./hooks/useNavigate";
-
-import "./render/hot";
 import { useSyncExternalStoreMethod } from "./hooks/useSyncExternalStore";
 import { useLocalStorageHook } from "./hooks/useLocalStorage";
 
+import "./render/hot";
+
 class FtReact {
     isFirstRender: boolean = true;
-    rootDom: Element | null = null;
     components: Map<string, ReactComponentInstance> = new Map();
     currentComponent: ReactComponentInstance | null = null;
 

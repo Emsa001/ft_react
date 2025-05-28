@@ -14,7 +14,6 @@ export function useStaticHook<T>(name: string, initialState?: T): [T, (value: T 
         hook = {
             memoizedState: initialState,
             queue: [],
-            type: 'state'
         };
         React.staticStates.set(name, hook);
     }

@@ -135,25 +135,20 @@ export const unMountNode = (node: ReactNode) => {
 export async function mount(props: MountProps): Promise<Element | null> {
     const { vNode, parent, name, mode = "append", isSvg } = props;
 
-    if (isNullOrUndefined(vNode)) {
+    if (isNullOrUndefined(vNode))
         return parent;
-    }
 
-    if (Array.isArray(vNode)) {
+    if (Array.isArray(vNode))
         return mountArrayVNode(vNode, parent, name, isSvg);
-    }
 
-    if (isPrimitive(vNode)) {
+    if (isPrimitive(vNode))
         return mountPrimitive(vNode as string | number, parent, mode);
-    }
 
-    if (typeof vNode === "boolean") {
+    if (typeof vNode === "boolean")
         return mountBooleanVNode(vNode, parent);
-    }
 
-    if (typeof (vNode as VNode).type === "function") {
+    if (typeof (vNode as VNode).type === "function")
         return await mountComponentVNode(vNode as ReactElement, parent, mode, isSvg);
-    }
 
     return mountElementVNode(vNode as ReactElement, parent, name, mode, isSvg);
 }

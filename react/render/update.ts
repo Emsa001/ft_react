@@ -225,6 +225,7 @@ const updateFunctionComponent = async (
     // TODO: if something doesn't work correctly, probably because of it
     if (oldComponent.vNode) {
         oldComponent.vNode.children = newComponent.children;
+        oldComponent.vNode.props = newComponent.props;
         oldComponent.vNode.componentName = componentName;
     }
 

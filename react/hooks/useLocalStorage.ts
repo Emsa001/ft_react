@@ -1,7 +1,7 @@
-import React, { useStatic } from "react";
+import React from "react";
 
 export function useLocalStorageHook<T>(key: string, initialValue: T): [T, (value: T) => void] {
-    const [storedValue, setStoredValue] = useStatic<T>(key, getStoredValue());
+    const [storedValue, setStoredValue] = React.useStatic<T>(key, getStoredValue());
 
     function getStoredValue(): T {
         try {

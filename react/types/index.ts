@@ -1,10 +1,7 @@
 // types.ts
-export type HookType = 'state' | 'effect' | 'memo' | 'ref';
-
 export interface Hook {
     memoizedState: any;
     queue: Array<Function>;
-    type: HookType;
 }
 
 export interface Context {
@@ -34,13 +31,6 @@ export interface ReactComponentInstance {
     onMount(): void;
     onUnmount(): void;
     onUpdate(): void;
-}
-
-export interface VDomManager {
-    rootDom: Element | null;
-
-    components: Map<string, ReactComponentInstance>;
-    currentComponent: ReactComponentInstance | null;
 }
 
 export interface RouterProps {

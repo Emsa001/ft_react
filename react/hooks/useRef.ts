@@ -1,5 +1,5 @@
-import { useStateHook } from "./useState";
+import React from 'react';
 
 export function useRefHook<T>(initialValue: T) {
-    return useStateHook({ current: initialValue })[0];
+    return React.useState({ current: initialValue })[0];
 };
