@@ -1,10 +1,13 @@
 import path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import dotenv from "dotenv";
 import webpack from "webpack";
 
 dotenv.config();
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 const envKeys = Object.keys(process.env)
     .filter((key) => key.startsWith("FT_REACT_PUBLIC_"))
@@ -19,17 +22,21 @@ export default {
 
     output: {
         filename: "bundle.js",
-        path: path.resolve(path.dirname(new URL(import.meta.url).pathname), "dist"),
+        path: path.resolve(__dirname, "dist"),
         publicPath: "/",
     },
     resolve: {
-        alias: {
-            react: path.resolve(path.dirname(new URL(import.meta.url).pathname), "react"),
-        },
         extensions: [".ts", ".tsx", ".js"],
-        modules: [path.resolve(path.dirname(new URL(import.meta.url).pathname), "react/types"), "node_modules"], // Add custom types directory
+        plugins: [
+            new TsconfigPathsPlugin({
+                configFile: path.resolve(__dirname, "tsconfig.json"),
+            }),
+        ],
+        modules: [
+            path.resolve(__dirname, "react/types"),
+            "node_modules",
+        ],
     },
-
     module: {
         rules: [
             {
