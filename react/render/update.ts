@@ -4,7 +4,6 @@ import { UpdateProps } from "../types";
 import { mount, unMountNode } from "./mount";
 import { removeProp, setProps } from "./props";
 
-
 // TODO: get rid of global variables
 let addToIndex = 0;
 let prevNodeRef: Element | null = null;
@@ -27,7 +26,7 @@ const isDifferent = (oldNode: ReactElement, newNode: ReactElement): boolean => {
 
     for (const key of oldPropsKeys) {
         if (!isEqual(oldProps[key], newProps[key])) {
-            if(IS_DEVELOPMENT) console.log("Props are different", oldProps[key], newProps[key]);
+            if (IS_DEVELOPMENT) console.log("Props are different", oldProps[key], newProps[key]);
             return true;
         }
     }
@@ -129,13 +128,18 @@ const updateBoolean = async (
     }
 
     if (index - 1 < 0) {
-       if (IS_DEVELOPMENT) console.log("Mounting first child", parent);
-       mount({ vNode: newNode, parent: parent as HTMLElement, mode: "before", name });
-       addToIndex++;
+        if (IS_DEVELOPMENT) console.log("Mounting first child", parent);
+        mount({ vNode: newNode, parent: parent as HTMLElement, mode: "before", name });
+        addToIndex++;
     } else {
         const previousChild = (parent.childNodes[index - 1] as HTMLElement) || parent.lastChild;
         if (IS_DEVELOPMENT) console.log("Mounting after previous child", index, prevNodeRef);
-        prevNodeRef = await mount({ vNode: newNode, parent: prevNodeRef || previousChild, mode: "after", name });
+        prevNodeRef = await mount({
+            vNode: newNode,
+            parent: prevNodeRef || previousChild,
+            mode: "after",
+            name,
+        });
     }
 
     return true;
@@ -168,7 +172,7 @@ const updateDifferentTypes = (
 ) => {
     if (typeof oldNode === typeof newNode) return false;
     if (IS_DEVELOPMENT) console.log("[ Type difference ]", typeof oldNode, typeof newNode);
-    
+
     mount({ vNode: newNode, parent: ref!, mode: "replace", name });
     unMountNode(oldNode);
     return true;
@@ -179,58 +183,52 @@ const updateFunctionComponent = async (
     newNode: ReactElement,
     ref: Element | null
 ) => {
-    if (typeof newNode.type != "function" || typeof oldNode.type != "function") return false;
+    if (typeof newNode.type !== "function" || typeof oldNode.type !== "function") return false;
 
-    // Compare props to check if function needs an update;
     const oldComponent = React.components.get(oldNode.componentName!);
+
     if (!oldComponent) {
         if (IS_DEVELOPMENT) console.warn("Old component not found", oldNode, newNode);
         return true;
     }
 
-    if (isDifferent(oldNode, newNode)) {
+    if (isDifferent(oldNode, newNode))
         oldComponent.isDirty = true;
-    }
 
-    const isDirty = oldNode.componentName && React.components.get(oldNode.componentName!)?.isDirty;
-    if (!isDirty) {
-        if (IS_DEVELOPMENT) {
+    if (!oldComponent.isDirty) {
+        if (IS_DEVELOPMENT)
             console.log("[ Function component ], no update necessary");
-            console.log("Old node", oldNode);
-            console.log("New node", newNode);
-            console.log("[ Component ]", React.components.get(oldNode.componentName!));
-        }
         return true;
     }
 
-    const newComponent = newNode.type(newNode.props, ...newNode.children);
-    newComponent.componentName = newNode.componentName;
+    // Use the latest props and children
+    oldComponent.jsx = newNode;
 
-    const componentName = typeof newComponent.type === "function" ? newComponent.type.name : "";
-
-    if (IS_DEVELOPMENT) console.log("[ Function component ]", newComponent, oldComponent);
-    
+    // Prepare hooks for update BEFORE running the function
     React.currentComponent = oldComponent;
-    React.currentComponent?.onUpdate();
-    
+    oldComponent.hookIndex = 0;
+
+    const newVNode = newNode.type(newNode.props, ...newNode.children);
+    newVNode.componentName = oldNode.componentName;
+
     await update({
-        oldNode: oldComponent?.vNode || oldNode,
-        newNode: newComponent,
-        ref: ref,
+        oldNode: oldComponent.vNode || oldNode,
+        newNode: newVNode,
+        ref,
         parent: ref?.parentElement!,
         index: 0,
-        name: componentName,
+        name: typeof newVNode.type === "function" ? newVNode.type.name : "",
     });
 
-    // TODO: if something doesn't work correctly, probably because of it
-    if (oldComponent.vNode) {
-        oldComponent.vNode.children = newComponent.children;
-        oldComponent.vNode.props = newComponent.props;
-        oldComponent.vNode.componentName = componentName;
-    }
+    // Keep vNode reference
+    oldComponent.vNode = newVNode;
+
+    oldComponent.onUpdate();
+    oldComponent.isDirty = false;
 
     return true;
 };
+
 
 const updateDifferentObjectTypes = (
     oldNode: ReactElement,
@@ -257,7 +255,7 @@ const updateElement = async (
     const newProps = newNode.props || {};
 
     for (const [key, value] of Object.entries(newProps)) {
-        if(oldProps[key] === value) continue;
+        if (oldProps[key] === value) continue;
         setProps({ ref: ref!, key, value });
     }
 
@@ -274,7 +272,7 @@ const updateElement = async (
         for (let i = 0; i < Math.max(oldNode.children.length, newNode.children.length); i++) {
             const newChild = newNode.children[i];
             const oldChild = oldNode.children[i];
-            
+
             const childRef =
                 oldChild?.ref ||
                 newChild?.ref ||

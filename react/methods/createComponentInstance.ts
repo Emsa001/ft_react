@@ -28,6 +28,7 @@ export function createComponentInstanceMethod(element: ReactElement): ReactCompo
         onMount() {
             if(IS_DEVELOPMENT) console.log("Component mounted:", this.name);
             this.isMounted = true;
+            this.hookIndex = 0;
         },
         onUnmount() {
             if(IS_DEVELOPMENT) console.log("Component unmounted:", this.name);
@@ -53,6 +54,7 @@ export function createComponentInstanceMethod(element: ReactElement): ReactCompo
         onUpdate() {
             if(IS_DEVELOPMENT) console.log("Component updated:", this.name);
             
+            this.hookIndex = 0;
             this.isDirty = false;
         },
     };

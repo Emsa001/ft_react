@@ -1,4 +1,4 @@
-import React from "..";
+import React, { IS_DEVELOPMENT } from "..";
 
 const container = document.getElementById("root")!;
 
@@ -10,6 +10,9 @@ async function renderApp(clearCache = true) {
 
     const root = React.createElement(Root);
     React.render(root, container);
+    if (IS_DEVELOPMENT) {
+        console.log(React.components)
+    }
 }
 
 if (import.meta.webpackHot) {
