@@ -26,6 +26,20 @@ export function setProps({ ref, key, value }: { ref: Element | null; key: string
         return;
     }
 
+    if (key === "disabled") {
+        if (value) {
+            (ref as HTMLInputElement | HTMLButtonElement).disabled = true;
+        } else {
+            (ref as HTMLInputElement | HTMLButtonElement).disabled = false;
+        }
+        return;
+    }
+
+    if (key === "checked" && ref instanceof HTMLInputElement) {
+        ref.checked = !!value;
+        return;
+    }
+
     if (key === "className") {
         ref.setAttribute("class", value);
         return;
@@ -39,7 +53,7 @@ export function setProps({ ref, key, value }: { ref: Element | null; key: string
         return;
     }
 
-    if(key === "value" && ref instanceof HTMLInputElement) {
+    if (key === "value" && ref instanceof HTMLInputElement) {
         ref.value = value;
         return;
     }
@@ -72,7 +86,7 @@ export function removeProp({ ref, key }: { ref: Element; key: string }): void {
     }
 
     if (key === "children") return;
-    if(key === "className"){
+    if (key === "className") {
         ref.removeAttribute("class");
         return;
     }

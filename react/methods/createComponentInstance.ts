@@ -37,9 +37,6 @@ export function createComponentInstanceMethod(element: ReactElement): ReactCompo
             if(IS_DEVELOPMENT) console.log("Unmounting children:", allChildren);
             for (const child of allChildren) unMountNode(child);
 
-            React.components.delete(this.name);
-            React.staticComponents.delete(this.name);
-            
             this.vNode?.ref?.remove();
             this.queueFunctions.forEach((fn) => fn());
             this.queueFunctions.clear();
@@ -49,6 +46,9 @@ export function createComponentInstanceMethod(element: ReactElement): ReactCompo
             this.jsx = null;
             this.hooks = [];
             this.hookIndex = 0;
+            
+            React.components.delete(this.name);
+            React.staticComponents.delete(this.name);
             
         },
         onUpdate() {

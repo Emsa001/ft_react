@@ -210,6 +210,64 @@ export default App;
 
 ---
 
+## Known Bugs
+
+1. **Props with heavy objects**
+    
+    In some cases, when passing large or complex objects as props, updates may not propagate correctly to child components.
+
+2. **Component return value**
+    
+    Every component must return a valid HTML element. For example:
+
+    ```tsx
+    // Correct
+    return (
+        <div>
+            <MyComponent />
+        </div>
+    );
+
+    // Incorrect
+    return <MyComponent />;
+    ```
+
+    Components cannot return `null`. Instead, use:
+
+    ```tsx
+    return <div />;
+    ```
+
+    When using loops (e.g., `.map`) in JSX, ensure each item returns a valid HTML element:
+
+    ```tsx
+        return (
+            <div>
+                {items.map(item => (
+                    <span key={item.id}>{item.value}</span>
+                ))}
+            </div>
+        );
+    ```
+
+3. **useStatic update scheduling**
+
+    When updating a state with `useStatic`, all other scheduled updates (such as normal `useState`) are cancelled for that render cycle. For example:
+
+    ```js
+    setUser(user); // setUser is a state from useStatic()
+    setWindow(null); // normal useState update will be ignored
+    ```
+
+    This can be easily fixed by splitting the updates into separate functions or using `setTimeout`, or executing the normal state updates before the `useStatic` update:
+
+    ```js
+    setWindow(null);
+    setUser(user);
+    ```
+
+---
+
 ## Contributing
 
 Contributions are welcome!  

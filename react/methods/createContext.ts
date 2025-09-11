@@ -1,3 +1,4 @@
+import { updateSchedule } from "react/render/updateSchedule";
 import { Context, ReactComponentInstance } from "react/types";
 
 export function createContextMethod<T>(defaultValue: T) {
@@ -14,8 +15,10 @@ export function createContextMethod<T>(defaultValue: T) {
             context.subscriptions.forEach((instance: ReactComponentInstance) => {
                 if (instance.isMounted) {
                     instance.isDirty = true;
+                    updateSchedule(instance, instance.hooks);
                 }
             });
+
 
             return children;
         },

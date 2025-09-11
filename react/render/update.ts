@@ -26,7 +26,12 @@ const isDifferent = (oldNode: ReactElement, newNode: ReactElement): boolean => {
 
     for (const key of oldPropsKeys) {
         if (!isEqual(oldProps[key], newProps[key])) {
-            if (IS_DEVELOPMENT) console.log("Props are different", oldProps[key], newProps[key]);
+            if (IS_DEVELOPMENT)
+                console.log(
+                    "Props are different",
+                    oldProps[key],
+                    newProps[key]
+                );
             return true;
         }
     }
@@ -37,7 +42,10 @@ const isDifferent = (oldNode: ReactElement, newNode: ReactElement): boolean => {
 
         if (typeof oldChild === "string" || typeof oldChild === "number") {
             if (oldChild !== newChild) return true;
-        } else if (typeof oldChild === "object" && typeof newChild === "object") {
+        } else if (
+            typeof oldChild === "object" &&
+            typeof newChild === "object"
+        ) {
             if (isDifferent(oldChild, newChild)) return true;
         } else {
             return true;
@@ -78,12 +86,17 @@ const updateUndefined = (
 ) => {
     if (oldNode === null || oldNode === undefined) {
         if (!parent) {
-            console.warn("Cannot Create new now: Parent is null");
+
             return true;
         }
 
         // if (IS_DEVELOPMENT) console.log("Node is null ]", oldNode, newNode);
-        mount({ vNode: newNode, parent: parent as HTMLElement, mode: "append", name });
+        mount({
+            vNode: newNode,
+            parent: parent as HTMLElement,
+            mode: "append",
+            name,
+        });
         return true;
     }
 
@@ -106,10 +119,12 @@ const updateBoolean = async (
     index: number,
     name: string
 ) => {
-    if (typeof oldNode != "boolean" && typeof newNode != "boolean") return false;
+    if (typeof oldNode != "boolean" && typeof newNode != "boolean")
+        return false;
     if (oldNode === newNode) return true;
 
-    if (IS_DEVELOPMENT) console.log("[ Boolean difference ]", oldNode, newNode, ref);
+    if (IS_DEVELOPMENT)
+        console.log("[ Boolean difference ]", oldNode, newNode, ref);
 
     if (newNode === false) {
         unMountNode(oldNode);
@@ -123,17 +138,24 @@ const updateBoolean = async (
     }
 
     if (!parent) {
-        console.warn("Cannot Create new now: Parent is null");
+
         return true;
     }
 
     if (index - 1 < 0) {
         if (IS_DEVELOPMENT) console.log("Mounting first child", parent);
-        mount({ vNode: newNode, parent: parent as HTMLElement, mode: "before", name });
+        mount({
+            vNode: newNode,
+            parent: parent as HTMLElement,
+            mode: "before",
+            name,
+        });
         addToIndex++;
     } else {
-        const previousChild = (parent.childNodes[index - 1] as HTMLElement) || parent.lastChild;
-        if (IS_DEVELOPMENT) console.log("Mounting after previous child", index, prevNodeRef);
+        const previousChild =
+            (parent.childNodes[index - 1] as HTMLElement) || parent.lastChild;
+        if (IS_DEVELOPMENT)
+            console.log("Mounting after previous child", index, prevNodeRef);
         prevNodeRef = await mount({
             vNode: newNode,
             parent: prevNodeRef || previousChild,
@@ -171,7 +193,8 @@ const updateDifferentTypes = (
     name: string
 ) => {
     if (typeof oldNode === typeof newNode) return false;
-    if (IS_DEVELOPMENT) console.log("[ Type difference ]", typeof oldNode, typeof newNode);
+    if (IS_DEVELOPMENT)
+        console.log("[ Type difference ]", typeof oldNode, typeof newNode);
 
     mount({ vNode: newNode, parent: ref!, mode: "replace", name });
     unMountNode(oldNode);
@@ -183,17 +206,33 @@ const updateFunctionComponent = async (
     newNode: ReactElement,
     ref: Element | null
 ) => {
-    if (typeof newNode.type !== "function" || typeof oldNode.type !== "function") return false;
+    if (
+        typeof newNode.type !== "function" ||
+        typeof oldNode.type !== "function"
+    )
+        return false;
+
+    // ✅ identity check: if different function, replace entirely
+    if (oldNode.type !== newNode.type) {
+        if (IS_DEVELOPMENT)
+            console.log("[ Function component change ]", oldNode, newNode);
+        return updateDifferentTypes(
+            oldNode,
+            newNode,
+            ref?.parentElement!,
+            newNode.type.name
+        );
+    }
 
     const oldComponent = React.components.get(oldNode.componentName!);
 
     if (!oldComponent) {
-        if (IS_DEVELOPMENT) console.warn("Old component not found", oldNode, newNode);
+        if (IS_DEVELOPMENT)
+            console.warn("Old component not found", oldNode, newNode);
         return true;
     }
 
-    if (isDifferent(oldNode, newNode))
-        oldComponent.isDirty = true;
+    if (isDifferent(oldNode, newNode)) oldComponent.isDirty = true;
 
     if (!oldComponent.isDirty) {
         if (IS_DEVELOPMENT)
@@ -229,7 +268,6 @@ const updateFunctionComponent = async (
     return true;
 };
 
-
 const updateDifferentObjectTypes = (
     oldNode: ReactElement,
     newNode: ReactElement,
@@ -237,7 +275,8 @@ const updateDifferentObjectTypes = (
     name: string
 ) => {
     if (oldNode.type === newNode.type) return false;
-    if (IS_DEVELOPMENT) console.log("[ Element type difference ]", oldNode, newNode);
+    if (IS_DEVELOPMENT)
+        console.log("[ Element type difference ]", oldNode, newNode);
 
     mount({ vNode: newNode, parent: ref!, mode: "replace", name });
     unMountNode(oldNode);
@@ -255,7 +294,7 @@ const updateElement = async (
     const newProps = newNode.props || {};
 
     for (const [key, value] of Object.entries(newProps)) {
-        if (oldProps[key] === value) continue;
+        if (oldProps[key] === value && typeof value != "function") continue;
         setProps({ ref: ref!, key, value });
     }
 
@@ -269,7 +308,11 @@ const updateElement = async (
 
     let realIndex = 0;
     if (Array.isArray(oldNode.children) && Array.isArray(newNode.children)) {
-        for (let i = 0; i < Math.max(oldNode.children.length, newNode.children.length); i++) {
+        for (
+            let i = 0;
+            i < Math.max(oldNode.children.length, newNode.children.length);
+            i++
+        ) {
             const newChild = newNode.children[i];
             const oldChild = oldNode.children[i];
 

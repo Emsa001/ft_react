@@ -108,7 +108,7 @@ export const unMountNode = (node: ReactNode) => {
 
     if (typeof node.type === "function") {
         if (!node.componentName) {
-            console.warn("Tried to unmount component but it's name is not defined");
+
             return;
         }
         React.components.get(node.componentName)?.onUnmount();

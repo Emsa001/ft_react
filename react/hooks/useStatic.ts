@@ -1,7 +1,7 @@
 import React, { IS_DEVELOPMENT } from "react";
 import { processQueue, updateSchedule } from "react/render/updateSchedule";
 
-export function useStaticHook<T>(name: string, initialState?: T): [T, (value: T | ((prevState: T) => T)) => void] {
+export function useStaticHook<T>(name: string, initialState?: T): [T, SetState<T>] {
     const component = React.currentComponent;
 
     if (!component) {
@@ -30,7 +30,7 @@ export function useStaticHook<T>(name: string, initialState?: T): [T, (value: T 
     
     const setState = (newValue: T | ((prevState: T) => T)) => {
         if(!staticComponents) {
-            console.warn("Tried to set state on a static component that doesn't exist");
+
             return ;
         }
 
@@ -45,7 +45,7 @@ export function useStaticHook<T>(name: string, initialState?: T): [T, (value: T 
         staticComponents.forEach((comp) => {
             const compInstance = React.components.get(comp);
             if(!compInstance) {
-                console.warn("Tried to set state on a static component that doesn't exist, probably component was unmounted and not unsubscribed from the static state. After this message, the component will be removed from the staticStates");
+
                 React.staticComponents.delete(comp);
             }else{
                 if (!compInstance.isDirty) {
@@ -56,6 +56,6 @@ export function useStaticHook<T>(name: string, initialState?: T): [T, (value: T 
         })    
     };
 
-    return [hook.memoizedState, setState] as [T, (value: T | ((prevState: T) => T)) => void];
+    return [hook.memoizedState, setState] as [T, SetState<T>];
 }
 

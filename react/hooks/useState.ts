@@ -1,7 +1,7 @@
 import React, { IS_DEVELOPMENT } from "react";
 import { updateSchedule } from "react/render/updateSchedule";
 
-export function useStateHook<T>(initialState: T): [T, (value: T | ((prevState: T) => T)) => void] {
+export function useStateHook<T>(initialState: T): [T, SetState<T>] {
     const component = React.currentComponent;
 
     if (!component) {
@@ -37,6 +37,6 @@ export function useStateHook<T>(initialState: T): [T, (value: T | ((prevState: T
             updateSchedule(component, component.hooks);
         }
     };
-    
-    return [hook.memoizedState, setState] as [T, (value: T | ((prevState: T) => T)) => void];
+
+    return [hook.memoizedState, setState] as [T, SetState<T>];
 }

@@ -24,6 +24,10 @@ class FtReact {
     components: Map<string, ReactComponentInstance> = new Map();
     currentComponent: ReactComponentInstance | null = null;
 
+    // Navigation cancellation tracking
+    isNavigating: boolean = false;
+    navigationCancelTokens: Set<() => void> = new Set();
+
     staticStates: Map<string, Hook> = new Map();
     staticComponents: Map<string, string[]> = new Map();
 
@@ -70,7 +74,7 @@ class FtReact {
         subscribe: (onStoreChange: () => void) => () => void,
         getSnapshot: () => T
     ) => useSyncExternalStoreMethod(subscribe, getSnapshot);
-    useLocalStorage = (key: string, initialValue?: any) => useLocalStorageHook(key, initialValue);
+    useLocalStorage = <T>(key: string, initialValue?: T) => useLocalStorageHook(key, initialValue);
 
     /*
      * Custom Methods
@@ -78,6 +82,24 @@ class FtReact {
 
     setTitle = (title: string) => {
         document.title = title;
+    };
+
+    // Navigation cancellation methods
+    setNavigating = (navigating: boolean) => {
+        this.isNavigating = navigating;
+        if (navigating) {
+            // Cancel all pending operations
+            this.navigationCancelTokens.forEach(cancel => cancel());
+            this.navigationCancelTokens.clear();
+        }
+    };
+
+    addCancelToken = (cancelFn: () => void) => {
+        this.navigationCancelTokens.add(cancelFn);
+    };
+
+    removeCancelToken = (cancelFn: () => void) => {
+        this.navigationCancelTokens.delete(cancelFn);
     };
 }
 
@@ -113,6 +135,9 @@ export const useLocalStorage = React.useLocalStorage;
  */
 
 export const setTitle = React.setTitle;
+export const setNavigating = React.setNavigating;
+export const addCancelToken = React.addCancelToken;
+export const removeCancelToken = React.removeCancelToken;
 /* ========================================================== */
 
 export * from "./types";
