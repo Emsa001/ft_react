@@ -16,6 +16,7 @@
 - [Example](#example)
   - [Basic Example](#basic-example)
   - [Routing Example](#example-routing)
+- [Known Bugs](#known-bugs)
 - [Contributing](#contributing)
 - [License](#license)
 
